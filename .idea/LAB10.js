@@ -17,6 +17,17 @@ app.get("/empleados/get",function(request, response){
     });
 });
 
+app.get("/empleados/getManagerEmployees/:id",function(request, response){
+
+    let managerId= request.params.id;
+    let query = "select EmployeeID, LastName, FirstName, Title from employees where  ReportsTo = ?";
+    let params= [managerId];
+
+    conn.query(query, params, function(error, data){
+        if(error) throw error;
+        response.json(data);
+    });
+});
 
 app.listen(8090, function(){
     console.log("servidor arrancado...");
