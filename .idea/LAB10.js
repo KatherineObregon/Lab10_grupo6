@@ -29,6 +29,22 @@ app.get("/empleados/getManagerEmployees/:id",function(request, response){
     });
 });
 
+app.get("/productos/get",function(request, response){
+
+    let pageNumber = request.query.page;
+
+    let indice = 10*(pageNumber-1);
+
+
+    let query = "select ProductID, ProductName, UnitPrice, UnitsInStock from products limit ?, 10";
+    let params= [indice];
+
+    conn.query(query, params, function(error, data){
+        if(error) throw error;
+        response.json(data);
+    });
+});
+
 app.listen(8090, function(){
     console.log("servidor arrancado...");
 });
