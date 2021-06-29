@@ -80,6 +80,36 @@ app.get('/empleados/getByTitle/:title', (req, res) => {
     });
 })
 
+//Pregunta 2
+app.get("/empleados/getManagerEmployees/:id",function(request, response){
+
+    let managerId= request.params.id;
+    let query = "select EmployeeID, LastName, FirstName, Title from employees where  ReportsTo = ?";
+    let params= [managerId];
+
+    conn.query(query, params, function(error, data){
+        if(error) throw error;
+        response.json(data);
+    });
+});
+//Pregunta 5
+
+app.get("/productos/get",function(request, response){
+
+    let pageNumber = request.query.page;
+
+    let indice = 10*(pageNumber-1);
+
+
+    let query = "select ProductID, ProductName, UnitPrice, UnitsInStock from products limit ?, 10";
+    let params= [indice];
+
+    conn.query(query, params, function(error, data){
+        if(error) throw error;
+        response.json(data);
+    });
+});
+
 
 
 app.listen(8090, function(){
