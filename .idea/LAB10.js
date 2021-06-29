@@ -29,6 +29,32 @@ app.get("/empleados/getManagerEmployees/:id",function(request, response){
     });
 });
 
+app.get('/empleados/getByTitle/:title', (req, res) => {
+    let Title = req.params.title;
+
+    let query = "SELECT * FROM lab10_employees.employees where Title = ?";
+    let parameters = [Title];
+
+    conn.query(query, parameters, function (err, results) {
+        if (err) throw err;
+
+        let employeeList = [];
+        for (var j = 0; j < results.length; j++) {
+
+            employee = {
+                'EmployeeID': results[j]['EmployeeID'],
+                'LastName': results[j]['LastName'],
+                'FirstName': results[j]['FirstName'],
+                'Title': results[j]['Title']
+            };
+            employeeList.push(employee);
+        }
+
+        res.json(employeeList);
+    });
+})
+
+
 app.get("/productos/get",function(request, response){
 
     let pageNumber = request.query.page;
