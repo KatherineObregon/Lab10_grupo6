@@ -40,7 +40,7 @@ app.post("/categorias/create", upload.none(), function(req, res){
             if(error){
                 var resJson = {
                     status : "error",
-                    message : error.details[0].message
+                    message : error["sqlMessage"]
                 };
                 res.status(400).json(resJson);
             }else{
@@ -133,7 +133,7 @@ app.post('/empleados/update', bodyParser.json(), function (req,response){
     }
     conn.query(query, params, function(error, result){
         if (error) {
-            response.json({ status: 'error', message: error.message})
+            response.json({ status: 'error', message: error["sqlMessage"]})
         } else {
             response.json({ status: 'ok', message: 'Employee updated'})
         }
