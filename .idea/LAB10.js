@@ -132,15 +132,11 @@ app.post('/empleados/update', bodyParser.json(), function (req,response){
          params =[address,email,id];
     }
     conn.query(query, params, function(error, result){
-        if(error) throw error;
-
-        let returnData ={
-            data:{
-                status:"ok",
-                message: "Employee updated"
-            }
+        if (error) {
+            response.json({ status: 'error', message: error.message})
+        } else {
+            response.json({ status: 'ok', message: 'Employee updated'})
         }
-        response.json(returnData);
     });
 
 })
